@@ -67,6 +67,6 @@ deliver:
     - helm upgrade --install weatherapp-ui -n staging --create-namespace --set image.tag=$CI_COMMIT_SHA .
     
     - cd ../weatherapp-weather
-    - helm upgrade --install weatherapp-weather -n staging --create-namespace --set apiKey=$API_KEY --set image.tag=$CI_COMMIT_SHA .
+    - helm upgrade --install weatherapp-weather -n staging --create-namespace --set apikey=$API_KEY --set image.tag=$CI_COMMIT_SHA .
   only:
     - main
