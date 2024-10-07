@@ -1,7 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-# IAM Role for GitLab CI/CD
-resource "aws_iam_role" "gitlab_ci_role" {
+resource "aws_iam_role" "eks_admin" {
   name = "${local.env}-${local.eks_name}-eks-admin"
 
   assume_role_policy = <<POLICY
@@ -20,8 +19,7 @@ resource "aws_iam_role" "gitlab_ci_role" {
 POLICY
 }
 
-# IAM Policy for GitLab CI/CD Admin Access
-resource "aws_iam_policy" "gitlab_ci_policy" {
+resource "aws_iam_policy" "eks_admin" {
   name = "AmazonEKSAdminPolicy"
 
   policy = <<POLICY
@@ -50,19 +48,17 @@ resource "aws_iam_policy" "gitlab_ci_policy" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "gitlab_admin" {
-  role       = aws_iam_role.gitlab_ci_role.name
-  policy_arn = aws_iam_policy.gitlab_ci_policy.arn
+resource "aws_iam_role_policy_attachment" "eks_admin" {
+  role       = aws_iam_role.eks_admin.name
+  policy_arn = aws_iam_policy.eks_admin.arn
 }
 
-# IAM User for GitLab CI/CD Manager
-resource "aws_iam_user" "gitlab_ci_manager" {
-  name = "gitlab_ci_manager"
+resource "aws_iam_user" "manager" {
+  name = "manager"
 }
 
-# IAM Policy to Allow GitLab CI Manager to Assume GitLab CI Role
-resource "aws_iam_policy" "gitlab_ci_assume_role_policy" {
-  name = "AmazonEKSAssumeGitLabCIAdminPolicy"
+resource "aws_iam_policy" "eks_assume_admin" {
+  name = "AmazonEKSAssumeAdminPolicy"
 
   policy = <<POLICY
 {
@@ -73,22 +69,21 @@ resource "aws_iam_policy" "gitlab_ci_assume_role_policy" {
             "Action": [
                 "sts:AssumeRole"
             ],
-            "Resource": "${aws_iam_role.gitlab_ci_role.arn}"
+            "Resource": "${aws_iam_role.eks_admin.arn}"
         }
     ]
 }
 POLICY
 }
 
-# Attach the assume role policy to the GitLab CI Manager
-resource "aws_iam_user_policy_attachment" "gitlab_ci_manager_attachment" {
-  user       = aws_iam_user.gitlab_ci_manager.name
-  policy_arn = aws_iam_policy.gitlab_ci_assume_role_policy.arn
+resource "aws_iam_user_policy_attachment" "manager" {
+  user       = aws_iam_user.manager.name
+  policy_arn = aws_iam_policy.eks_assume_admin.arn
 }
 
 # Best practice: use IAM roles due to temporary credentials
-resource "aws_eks_access_entry" "gitlab_ci_manager_access" {
+resource "aws_eks_access_entry" "manager" {
   cluster_name      = aws_eks_cluster.eks.name
-  principal_arn     = aws_iam_role.gitlab_ci_role.arn
+  principal_arn     = aws_iam_role.eks_admin.arn
   kubernetes_groups = ["gitlab-admin"]
 }

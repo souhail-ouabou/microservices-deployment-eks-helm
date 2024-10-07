@@ -53,7 +53,7 @@ deliver:
     - pip install --no-cache-dir awscli
     - aws configure set region "us-east-2"
     - aws eks update-kubeconfig --name staging-weatherapp-cluster --region us-east-2
-    - kubectl get pods
+    # - kubectl get pods
     # - mkdir -p /tmp/.kube
     # - echo "$K8SCONFIG" | base64 -d > /tmp/.kube/config
     # - chmod 600 /tmp/.kube/config
