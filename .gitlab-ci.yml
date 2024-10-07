@@ -63,10 +63,10 @@ deliver:
     - helm dependency build .
     - helm upgrade --install weatherapp-auth -n staging --create-namespace --set mysql.auth.rootPassword=$DB_PASSWORD --set image.tag=$CI_COMMIT_SHA .
 
-    - cd ../weatherapp-ui
+    - cd /helm/weatherapp-ui
     - helm upgrade --install weatherapp-ui -n staging --create-namespace --set image.tag=$CI_COMMIT_SHA .
     
-    - cd ../weatherapp-weather
+    - cd /helm/weatherapp-weather
     - helm upgrade --install weatherapp-weather -n staging --create-namespace --set apiKey=$API_KEY --set image.tag=$CI_COMMIT_SHA .
   only:
     - main
