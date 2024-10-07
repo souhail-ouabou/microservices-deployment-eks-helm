@@ -52,9 +52,11 @@ deliver:
     - . /tmp/venv/bin/activate
     - pip install --no-cache-dir awscli
     - aws configure set region "us-east-2"
-    - mkdir -p /tmp/.kube
-    - echo "$K8SCONFIG" | base64 -d > /tmp/.kube/config
-    - chmod 600 /tmp/.kube/config
+    - aws eks update-kubeconfig --name staging-weatherapp-cluster --region us-east-2
+    - kubectl get pods
+    # - mkdir -p /tmp/.kube
+    # - echo "$K8SCONFIG" | base64 -d > /tmp/.kube/config
+    # - chmod 600 /tmp/.kube/config
     - helm repo add bitnami https://charts.bitnami.com/bitnami  
   script:
     - cd helm/weatherapp-auth
