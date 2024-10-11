@@ -49,11 +49,7 @@ resource "aws_eks_node_group" "general" {
   scaling_config {
     desired_size = 1
     max_size     = 2
-    min_size     = 0
-  }
-
-  update_config {
-    max_unavailable = 1
+    min_size     = 2
   }
 
   labels = {
