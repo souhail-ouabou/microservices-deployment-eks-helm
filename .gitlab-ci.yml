@@ -98,7 +98,10 @@ deploy:
     entrypoint: [""]
   before_script:
     - apk add py3-pip
-    - pip3 install awscli
+    - apk add --no-cache python3 py3-pip
+    - python3 -m venv /tmp/venv
+    - . /tmp/venv/bin/activate
+    - pip install --no-cache-dir awscli
     - helm repo add bitnami https://charts.bitnami.com/bitnami
   script:
     - cd weatherapp-auth
