@@ -102,7 +102,7 @@ deploy:
     - python3 -m venv /tmp/venv
     - . /tmp/venv/bin/activate
     - pip install --no-cache-dir awscli
-    - aws eks update-kubeconfig --name $CLUSTER_NAME --re
+    - aws eks update-kubeconfig --name $CLUSTER_NAME --region us-east-2
     - helm repo add bitnami https://charts.bitnami.com/bitnami
   script:
     - cd helm/weatherapp-auth
