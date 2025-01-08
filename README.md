@@ -5,6 +5,7 @@ This project demonstrates my expertise in a broad range of DevOps practices and 
 ## Project Overview
 
 
+<img width="5910" alt="262523924-581770f8-fc70-49e7-9e46-25bdb0a6c69d" src="https://github.com/user-attachments/assets/94e5350c-3905-4a81-81bd-ca4ebea4ed67" />
 
 In this project, I delve into various aspects of DevOps and demonstrate my expertise in utilizing the following key technologies:
 
